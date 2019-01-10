@@ -3,6 +3,7 @@ version 16
 __lua__
 car={x=64, y=30}
 bullets = {}
+obs={}
 
 function fire()
   if (btnp(4)) then
@@ -36,6 +37,7 @@ function move_car()
   	car.x=car.x+1
   	if (car.x > 127) then
   	  car.x = 0
+  	  new_obsticles()
   	end 
   end
   if (btn(2)) then   	
@@ -54,7 +56,31 @@ function move_car()
   end
 end
 
+function new_obs()
+  //draw 3 obstacles in 2 lanes
+  obs = {}
+  local y = 35
+  local x = 80
+  yp=rnd(3)
+  if (yp == 0) then y = 35
+  if (yp == 1) then y = 30
+  if (yp == 2) then y = 25
+  local o = {
+    x=rnd(80)+30,
+    y=y
+    sp=6
+  }
+  add(obs,o)
+end
+
+function draw_obs()
+  for o in all(obs) do
+    spr(o.sp, o.x, o.y)
+  end
+end
+
 function _update()
+  update_obsticles()
   fire()
   move_car()
   move_bullets()
